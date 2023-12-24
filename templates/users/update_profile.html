@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>User Sign up</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                margin: 0;
+                padding: 0;
+            }
+            h1 {
+                margin-bottom: 20px;
+                color: #4caf50;
+            }
+            .container {
+                text-align: center;
+                background-color: #fff;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+                margin: 20px auto;
+                max-width: 600px;
+            }
+            form {
+                margin-top: 20px;
+                text-align: left;
+            }
+            label {
+                display: block;
+                margin-bottom: 8px;
+            }
+            input[type="text"],
+            input[type="email"],
+            input[type="password"],
+            select,
+            input[type="number"],
+            input[type="checkbox"] {
+                width: 100%;
+                padding: 8px;
+                margin-bottom: 16px;
+                box-sizing: border-box;
+            }
+            button {
+                background-color: #4CAF50;
+                color: white;
+                padding: 10px 15px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+            button:hover {
+                background-color: #45a049;
+            }
+            .additional-info {
+                margin-top: 20px;
+                text-align: left;
+                border-top: 1px solid #ccc;
+                padding-top: 20px;
+            }
+            .additional-info h2 {
+                margin-top: 20px;
+            }
+    
+            /* ... 기존 스타일은 여기에 ... */
+    
+            /* 새로운 체크박스 디자인 */
+            input[type="checkbox"] {
+                appearance: none;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                width: 20px;
+                height: 20px;
+                border: 2px solid #4CAF50; /* 체크박스 테두리 색상 */
+                border-radius: 4px;
+                position: relative;
+                transition: all 0.3s ease;
+            }
+    
+            /* 체크된 상태 */
+            input[type="checkbox"]:checked {
+                background-color: #4CAF50; /* 체크된 박스 배경 색상 */
+                border-color: #4CAF50; /* 체크된 박스 테두리 색상 */
+            }
+    
+            /* 체크된 상태의 체크 마크 */
+            input[type="checkbox"]:checked::after {
+                content: '\2713'; /* 체크 마크 (✓) */
+                font-size: 14px;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                color: white; /* 체크 마크 색상 */
+            }
+    
+        </style>
+    </head>
+<body>
+    <div class="container">
+        <h1>회원 정보 수정</h1>
+
+        {% if error %}
+            <p style="color: red;">{{ error }}</p>
+        {% endif %}
+
+        <form action="{% url 'user:update_profile' %}" method="post">
+            {% csrf_token %}
+            <!-- 기존 입력 필드 유지 -->
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" value="{{ request.user.username }}" readonly>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" value="{{ request.user.email }}" readonly>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+
+            <label for="password">New Password</label>
+            <input type="password" id="new-password" name="new-password" required>
+
+            <label for="confirm-password">Confirm New Password</label>
+            <input type="password" id="confirm-password" name="confirm-password" required>
+
+            <!-- 추가 정보 유지 -->
+            <div class="additional-info">
+                <h2>기타 회원정보</h2>
+
+                <!-- 성별 및 연령 -->
+                <label for="gender">성별</label>
+                <select id="gender" name="gender" >
+                    <option value="male" {% if user.gender == 'male' %}selected{% endif %}>남성</option>
+                    <option value="female" {% if user.gender == 'female' %}selected{% endif %}>여성</option>
+                </select>
+
+                <label for="age">연령</label>
+                <input type="number" id="age" name="age" min="1" max="120" value="{{ request.user.age}}">
+
+                <!-- 알러지, 특이사항 및 기타 사항 -->
+                <div>
+                    <h2>알러지</h2>
+                    <div style="display: flex; flex-wrap: wrap;">
+                        <div style="flex: 0 0 50%; max-width: 50%;">
+                            <!-- 첫 번째 열 알러지 항목 -->
+                            <label for="allergy-wheat">밀</label> 
+                            <input type="checkbox" id="allergy-wheat" name="allergy[]" value="밀" {% if '밀' in request.user.allergies %}checked{% endif %}>
+
+                            <label for="allergy-buckwheat">메밀</label>
+                            <input type="checkbox" id="allergy-buckwheat" name="allergy[]" value="메밀" {% if '메밀' in request.user.allergies %}checked{% endif %}>
+
+                            <label for="allergy-soybean">대두</label>
+                            <input type="checkbox" id="allergy-soybean" name="allergy[]" value="대두" {% if '대두' in request.user.allergies %}checked{% endif %}>
+
+                            <label for="allergy-nuts">견과류</label>
+                            <input type="checkbox" id="allergy-nuts" name="allergy[]" value="견과류" {% if '견과류' in request.user.allergies %}checked{% endif %}>
+
+                            <label for="allergy-shellfish">갑각류</label>
+                            <input type="checkbox" id="allergy-shellfish" name="allergy[]" value="갑각류" {% if '갑각류' in request.user.allergies %}checked{% endif %}>
+                        </div>
+                        <div style="flex: 0 0 50%; max-width: 50%;">
+
+                            <label for="allergy-peach">복숭아</label>
+                            <input type="checkbox" id="allergy-peach" name="allergy[]" value="복숭아" {% if '복숭아' in request.user.allergies %}checked{% endif %}>
+
+                            <label for="allergy-tomato">토마토</label>
+                            <input type="checkbox" id="allergy-tomato" name="allergy[]" value="토마토" {% if '토마토' in request.user.allergies %}checked{% endif %}>
+
+                            <label for="allergy-egg">난류</label>
+                            <input type="checkbox" id="allergy-egg" name="allergy[]" value="난류" {% if '난류' in request.user.allergies %}checked{% endif %}>
+
+                            <label for="allergy-milk">우유</label>
+                            <input type="checkbox" id="allergy-milk" name="allergy[]" value="우유" {% if '우유' in request.user.allergies %}checked{% endif %}>
+
+                            <label for="allergy-shellfish-oyster">조개류 (굴, 전복, 홍합 포함)</label>
+                            <input type="checkbox" id="allergy-shellfish-oyster" name="allergy[]" value="조개류" {% if '조개류' in request.user.allergies %}checked{% endif %}>
+                        </div>
+                    </div>
+                    <div>
+                        <h2>특이사항</h2>
+                        <div style="display: flex; flex-wrap: wrap;">
+                            <div style="flex: 0 0 50%; max-width: 50%;">
+                                <!-- 첫 번째 열 알러지 항목 -->
+                                <label for="disease-obesity">비만</label> 
+                                <input type="checkbox" id="disease-obesity" name="disease[]" value="비만" {% if '비만' in request.user.diseases %}checked{% endif %}>
+                                
+                                <label for="disease-hypertension">고혈압</label>
+                                <input type="checkbox" id="disease-hypertension" name="disease[]" value="고혈압" {% if '고혈압' in request.user.diseases %}checked{% endif %}>
+    
+                                <label for="disease-hypertension">임산부</label>
+                                <input type="checkbox" id="disease-hypertension" name="disease[]" value="임산부" {% if '임산부' in request.user.diseases %}checked{% endif %}>
+                            </div>
+    
+                            <div style="flex: 0 0 50%; max-width: 50%;">
+    
+                                <label for="disease-diabetes">당뇨병</label>
+                                <input type="checkbox" id="disease-diabetes" name="disease[]" value="당뇨병" {% if '당뇨병' in request.user.diseases %}checked{% endif %}>
+                                
+                                <label for="disease-heart-disease">심장병</label>
+                                <input type="checkbox" id="disease-heart-disease" name="disease[]" value="심장병" {% if '심장병' in request.user.diseases %}checked{% endif %}>
+    
+                                <label for="disease-hypertension">어린이 및 노약자</label>
+                                <input type="checkbox" id="disease-hypertension" name="disease[]" value="어린이 및 노약자" {% if '어린이 및 노약자' in request.user.diseases %}checked{% endif %}>
+                            </div>
+                            <label for="기타 사항">기타 사항</label>
+                            <input type="text" id="etc" name="etc" value="{{ request.user.etc}}">
+                    </div>
+            </div>
+
+            <!-- 수정 버튼 -->
+            <button type="submit">update</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>식품 성분 및 영양 분석 서비스 회원가입</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            margin-bottom: 20px;
+            color: #4caf50;
+        }
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            max-width: 600px;
+        }
+        form {
+            margin-top: 20px;
+            text-align: left;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        select,
+        input[type="number"],
+        input[type="checkbox"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .additional-info {
+            margin-top: 20px;
+            text-align: left;
+            border-top: 1px solid #ccc;
+            padding-top: 20px;
+        }
+        .additional-info h2 {
+            margin-top: 20px;
+        }
+
+        /* 새로운 체크박스 디자인 */
+        input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #4CAF50; /* 체크박스 테두리 색상 */
+            border-radius: 4px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        /* 체크된 상태 */
+        input[type="checkbox"]:checked {
+            background-color: #4CAF50; /* 체크된 박스 배경 색상 */
+            border-color: #4CAF50; /* 체크된 박스 테두리 색상 */
+        }
+
+        /* 체크된 상태의 체크 마크 */
+        input[type="checkbox"]:checked::after {
+            content: '\2713'; /* 체크 마크 (✓) */
+            font-size: 14px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white; /* 체크 마크 색상 */
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>식품 성분 및 영양 분석 서비스 회원가입</h1>
+        <form action="" method="post">
+            {% csrf_token %}
+
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required value="{{userid1}}">
+            <br>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+            <br>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+            <br>
+
+            <label for="confirm_password">* Password를 재입력해주세요</label>
+            <input type="password" id="confirm_password" name="confirm_password" required>
+            <br>
+
+            <div class="additional-info">
+                <h2>기타 회원정보</h2>
+
+                <label for="gender">성별:</label>
+                <select id="gender" name="gender">
+                    <option value="male">남성</option>
+                    <option value="female">여성</option>
+                </select>
+                <br>
+
+                <label for="age">연령:</label>
+                <input type="number" id="age" name="age" min="1" max="120">
+                <br>
+
+                <div>
+                  <h2>알러지</h2>
+                  <div style="display: flex; flex-wrap: wrap;">
+                      <div style="flex: 0 0 50%; max-width: 50%;">
+                          <!-- 첫 번째 열 알러지 항목 -->
+                          <label for="allergy-wheat">밀</label> 
+                          <input type="checkbox" id="allergy-wheat" name="allergy[]" value="밀">
+
+                          <label for="allergy-buckwheat">메밀</label>
+                          <input type="checkbox" id="allergy-buckwheat" name="allergy[]" value="메밀">
+
+                          <label for="allergy-soybean">대두</label>
+                          <input type="checkbox" id="allergy-soybean" name="allergy[]" value="대두">
+
+                          <label for="allergy-nuts">견과류</label>
+                          <input type="checkbox" id="allergy-nuts" name="allergy[]" value="견과류">
+
+                          <label for="allergy-shellfish">갑각류</label>
+                          <input type="checkbox" id="allergy-shellfish" name="allergy[]" value="갑각류">
+                      </div>
+                      <div style="flex: 0 0 50%; max-width: 50%;">
+
+                          <label for="allergy-peach">복숭아</label>
+                          <input type="checkbox" id="allergy-peach" name="allergy[]" value="복숭아">
+
+                          <label for="allergy-tomato">토마토</label>
+                          <input type="checkbox" id="allergy-tomato" name="allergy[]" value="토마토">
+
+                          <label for="allergy-egg">난류</label>
+                          <input type="checkbox" id="allergy-egg" name="allergy[]" value="난류">
+
+                          <label for="allergy-milk">우유</label>
+                          <input type="checkbox" id="allergy-milk" name="allergy[]" value="우유">
+
+                          <label for="allergy-shellfish-oyster">조개류 (굴, 전복, 홍합 포함)</label>
+                          <input type="checkbox" id="allergy-shellfish-oyster" name="allergy[]" value="조개류">
+                      </div>
+                  </div>
+              </div>
+              <div>
+                <h2>특이사항</h2>
+                <div style="display: flex; flex-wrap: wrap;">
+                    <div style="flex: 0 0 50%; max-width: 50%;">
+                        <!-- 첫 번째 열 알러지 항목 -->
+                        <label for="disease-obesity">비만</label> 
+                        <input type="checkbox" id="disease-obesity" name="disease[]" value="비만">
+                        
+                        <label for="disease-hypertension">고혈압</label>
+                        <input type="checkbox" id="disease-hypertension" name="disease[]" value="고혈압">
+
+                        <label for="pregnant-woman">임산부</label>
+                        <input type="checkbox" id="disease-hypertension" name="disease[]" value="임산부">
+                    </div>
+
+                    <div style="flex: 0 0 50%; max-width: 50%;">
+
+                        <label for="disease-diabetes">당뇨병</label>
+                        <input type="checkbox" id="disease-diabetes" name="disease[]" value="당뇨병">
+                        
+                        <label for="disease-heart-disease">심장병</label>
+                        <input type="checkbox" id="disease-heart-disease" name="disease[]" value="심장병">
+
+                        <label for="disease-hypertension">어린이 및 노약자</label>
+                        <input type="checkbox" id="disease-hypertension" name="disease[]" value="어린이 및 노약자">
+                    </div>
+                    <label for="etc">기타 사항</label>
+                    <input type="text" id="etc" name="etc" required>
+            </div>
+        </div>
+
+            <button type="submit">Sign Up</button>
+        </form>
+    </div>
+</body>
+</html>

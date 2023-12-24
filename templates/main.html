@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xml:lang="ko" lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <link rel="shortcut icon" type="image/x-icon" href="https://i.ibb.co/cbHgf9m/maskable-icon-1.png">
+  <title>main</title>
+  <style>
+    /* Your existing CSS styles remain unchanged */
+
+    /* Additional CSS for single column layout */
+    .main-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f5f5f5;
+      flex-direction: column;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      background-color: #f5f5f5;
+    }
+
+    /* Additional CSS for footer sections */
+    .dashboard-section,
+    .history-banner {
+      margin-bottom: 20px;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      width: 80%; /* or adjust to your desired width */
+      max-width: 400px; /* or adjust as needed */
+      text-align: center;
+      cursor: pointer;
+      margin: 0 auto; /* Add this line to center horizontally */
+    }
+    
+    .dashboard-section h2,
+    .history-banner h2 {
+      margin: 0;
+      color: #4caf50;
+    }
+    h1 {
+        margin-bottom: 20px;
+        color: #4caf50;
+    }
+
+  </style>
+</head>
+
+<body>
+  <h1 style="text-align: center; display: flex; align-items: center; justify-content: center;">
+    <img src="https://i.ibb.co/cbHgf9m/maskable-icon-1.png" width="50" height="50" style="margin-right: 10px;">
+    <span style="color: #4caf50; font-size: 36px;">식품 성분 및 영양 분석 서비스</span>
+  </h1>
+  
+  {% csrf_token %}
+  <div style="text-align: right;">
+    <h2 style="text-align: right;">{{ request.user.username }}님 환영합니다!</h2>
+    <a href="/logout" style="text-decoration: none; color: #4caf50; font-weight: bold; margin-right: 20px;">로그아웃</a>
+  </div>
+  <div id="loginPopup"
+    style="display: none; position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); background: #ffffff; padding: 20px; border-radius: 15px; width: 400px; max-width: 90%; box-shadow: 0px 0px 15px rgba(0,0,0,0.2); z-index: 9999; box-sizing: border-box; text-align: center; font-family: Arial, sans-serif;">
+    <button onclick="closePopup()"
+      style="position: absolute; right: 10px; top: 10px; background: transparent; border: none; font-size: 20px; cursor: pointer; color: #333;">X</button>
+    <h2 style="margin: 0; color: #333; font-size: 24px; padding: 20px 0;">안내</h2>
+    <hr style="border: 0; border-top: 1px solid #eee;">
+    <p style="color: #666; line-height: 1.5; padding: 20px 0; font-size: 16px;">로그인 후 이용하세요.
+      아직 회원이 아니시라면 회원가입을 부탁드립니다.</p>
+    <button onclick="window.location.href = '/login/'"
+      style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; cursor: pointer; border-radius: 5px; font-size: 18px; height: 50px;">로그인</button>
+  </div>
+</div>
+
+
+  <!-- 여기 부터 메뉴 -->
+  <main id="container" class="main">
+    <section class="visual">
+      <ol class="slide">
+          <figure>
+            <!-- 비디오 삽입 -->
+            <div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+              <iframe width="800" height="500" src="https://www.youtube.com/embed/C5PTY4PTF9g?autoplay=1&mute=1&controls=0&loop=1&playlist=C5PTY4PTF9g" 
+                      title="YouTube video player" frameborder="0" 
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                      allowfullscreen></iframe>
+            </div>
+            <figcaption>
+              <!-- 영상 설명이나 캡션 등을 추가할 수 있습니다 -->
+            </figcaption>
+          </figure>
+      </ol>
+    </section>
+  </main>
+
+  <!-- footer  이곳 부터는 풋터-->
+  <footer id="foot" style="margin-top: 20px;">
+    <!--<div id="quick">
+    <button type="button" class="ico">TOP</button>
+  </div>
+  -->
+    <div class="dashboard-section" onclick="handleEditProfile1()">
+      <h2>이미지 선택</h2>
+    </div>
+    <script>
+      function handleEditProfile1() {
+        console.log("이미지 선택 clicked!");
+        // 이미지 선택을 위한 기능을 추가하세요
+        window.location.href = "{% url 'user:upload_image' %}";
+      }
+    </script>
+
+    <div class="history-banner" onclick="handleHistoryClick1()">
+      <h2>이력</h2>
+    </div>
+    <script>
+      function handleHistoryClick1() {
+        console.log("이력 clicked!");
+        // 이력을 위한 기능을 추가하세요
+        window.location.href = "{% url 'user:record' %}";
+      }
+    </script>
+
+    <div class="dashboard-section" onclick="handleEditProfile2()">
+      <h2>회원정보 수정</h2>
+    </div>
+    <script>
+      function handleEditProfile2() {
+        console.log("회원정보 수정 clicked!");
+        // 회원정보 수정을 위한 기능을 추가하세요
+        window.location.href = "{% url 'user:update_profile' %}";
+      }
+    </script>
+  </footer>
+</body>
+
+<script>
+
+  function showPopup() {
+    // 팝업 띄우는 로직 추가
+
+    // 로컬 스토리지에 팝업 상태 저장
+    localStorage.setItem("popupShown", "true");
+  }
+
+  function closePopup() {
+    document.getElementById("loginPopup").style.display = "none";
+  }
+</script>
+
+</html>
